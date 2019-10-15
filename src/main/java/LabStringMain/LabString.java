@@ -1,13 +1,18 @@
 package LabStringMain;
 
 
+import java.util.StringTokenizer;
+
 public class LabString {
+
     public static void main(String[] args) {
-        checkArgs(args);
-        printArgs(args);
-        StringBuilder substring = findMaxSubstring(args[0], args[1]);
-        System.out.printf(substring.toString());
+        String[]strings = parseString(args[0]);
+        checkArgs(strings);
+        printArgs(strings);
+        StringBuilder substring = findMaxSubstring(strings[0], strings[1]);
+        System.out.printf("MaxSubstring: " + substring.toString());
     }
+
 
     protected static StringBuilder findMaxSubstring(String arg1, String arg2) {
         StringBuilder str1 = new StringBuilder(arg1);
@@ -28,14 +33,25 @@ public class LabString {
         return substring;
     }
 
-    protected static StringBuilder findSubstring(StringBuilder str1, StringBuilder str2, int i, int j) {
+    protected static  String[] parseString(String arg) {
+        StringTokenizer stringTokenizer = new StringTokenizer(arg, " ");
+        String[] answer = new String[stringTokenizer.countTokens()];
+        int i =  0;
+        while (stringTokenizer.hasMoreTokens()) {
+            answer[i] = stringTokenizer.nextToken();
+            i++;
+        }
+        return answer;
+    }
+
+    protected static StringBuilder findSubstring(StringBuilder str1, StringBuilder str2, int startFirstPos, int startSecondPos) {
         int sizeCurrent = 1;
         StringBuilder str = new StringBuilder();
-        str.append(str1.charAt(i));
-        for (int k = i + 1; k < str1.length(); k++) {
-            if (j + sizeCurrent >= str2.length())
+        str.append(str1.charAt(startFirstPos));
+        for (int k = startFirstPos + 1; k < str1.length(); k++) {
+            if (startSecondPos + sizeCurrent >= str2.length())
                 break;
-            if (str1.charAt(k) != str2.charAt(j + sizeCurrent))
+            if (str1.charAt(k) != str2.charAt(startSecondPos + sizeCurrent))
                 break;
             str.append(str1.charAt(k));
             sizeCurrent++;

@@ -1,12 +1,12 @@
 package LabStringMain;
 
-
 import java.util.StringTokenizer;
 
 public class LabString {
 
     public static void main(String[] args) {
-        String[]strings = parseString(args[0]);
+        checkArgs(args);
+        StringBuilder[] strings = parseString(args[0]);
         checkArgs(strings);
         printArgs(strings);
         StringBuilder substring = findMaxSubstring(strings[0], strings[1]);
@@ -14,9 +14,7 @@ public class LabString {
     }
 
 
-    protected static StringBuilder findMaxSubstring(String arg1, String arg2) {
-        StringBuilder str1 = new StringBuilder(arg1);
-        StringBuilder str2 = new StringBuilder(arg2);
+    protected static StringBuilder findMaxSubstring(StringBuilder str1, StringBuilder str2) {
         int maxSize = 0;
         StringBuilder substring = new StringBuilder();
         for (int i = 0; i < str1.length(); i++) {
@@ -33,21 +31,21 @@ public class LabString {
         return substring;
     }
 
-    protected static  String[] parseString(String arg) {
+    protected static StringBuilder[] parseString(String arg) {
         StringTokenizer stringTokenizer = new StringTokenizer(arg, " ");
-        String[] answer = new String[stringTokenizer.countTokens()];
-        int i =  0;
+        StringBuilder[] answer = new StringBuilder[stringTokenizer.countTokens()];
+        int i = 0;
         while (stringTokenizer.hasMoreTokens()) {
-            answer[i] = stringTokenizer.nextToken();
+            answer[i] = new StringBuilder(stringTokenizer.nextToken());
             i++;
         }
         return answer;
     }
 
     protected static StringBuilder findSubstring(StringBuilder str1, StringBuilder str2, int startFirstPos, int startSecondPos) {
-        int sizeCurrent = 1;
         StringBuilder str = new StringBuilder();
         str.append(str1.charAt(startFirstPos));
+        int sizeCurrent = 1;
         for (int k = startFirstPos + 1; k < str1.length(); k++) {
             if (startSecondPos + sizeCurrent >= str2.length())
                 break;
@@ -59,13 +57,18 @@ public class LabString {
         return str;
     }
 
-    protected static void printArgs(String[] args) {
+    protected static void printArgs(StringBuilder[] args) {
         for (int i = 0; i < args.length; ++i)
             System.out.println("N " + i + " = " + args[i]);
     }
 
-    private static void checkArgs(String[] args) {
+    private static void checkArgs(StringBuilder[] args) {
         if (args.length != 2)
+            throw new RuntimeException("Wrong argument count ");
+    }
+
+    private static void checkArgs(String[] args) {
+        if (args.length != 1)
             throw new RuntimeException("Wrong argument count ");
     }
 }
